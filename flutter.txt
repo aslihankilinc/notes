@@ -1,0 +1,17 @@
+---Terminal
+
+Emulator_Error
+
+flutter doctor
+
+flutter config --android-sdk sdk_path/adress
+
+restart Android Studio
+
+flutter emulators
+
+flutter emulators --launch emulator_name
+
+for haxm C:\Users\username\AppData\Local\Android\Sdk\Extras\extras\intel\intelhaxm-android.exe Pencere Özelliklerini Aç ve Kapat üzerine tıklayın. Bir pencere açılır. Hyper-V seçeneğinin işaretini kaldırın ve sisteminizi yeniden başlatın. BIOS'tan VTF aktif et
+
+assets problem flutter run
