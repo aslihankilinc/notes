@@ -1,0 +1,77 @@
+Grafana Api Kurulım
+
+***https://kullanicadi.grafana.net/org/users  <--profil panel
+1.Grafana hesabı olustur
+2.Hesabında ayarlar kısmına gel Api-Key olustur
+3.Olusturulan api key'de Authorization: Bearer  olarak Token'ı gir
+4.https://kullanicadi.grafana.net/api/
+
+***yardımcı sayfa  https://grafana.com/docs/grafana/latest/http_api/
+
+5.DB olusturma body 
+
+post :https://kullanicadi.grafana.net/api/dashboards/db
+
+{
+  "dashboard": {
+    "id": null,
+    "uid": null,
+    "title": "db adi",
+    "tags": [ "templated" ],
+    "timezone": "browser",
+    "schemaVersion": 16,
+    "version": 0
+  },
+  "folderId": 0,
+  "overwrite": false
+}
+
+
+
+6.Datasource olusturma(kaynak page :https://grafana.com/docs/grafana/latest/http_api/data_source/)
+
+***Profil Paneli -> Ayarlar -> Datasource
+***Geri dönen id degeri datasource veri yazilirken kullanılacak
+
+post :https://kullanicadi.grafana.net/api/datasources
+
+
+{
+  "name": "test_datasource",
+  "type": "graphite",
+  "url": "http://mydatasource.com",
+  "access": "proxy",
+  "basicAuth": true,
+  "basicAuthUser": "basicuser",
+  "secureJsonData": {
+    "basicAuthPassword": "basicpassword"
+  }
+}
+
+
+datasource data yazma
+
+***nosql olarak veri tutmaktadır
+***Json gönderilmeli
+***datasource'tu olustururken kullılan username,pass,..,token  bilgileri gönderilmeli
+
+put:https://kullanicadi.grafana.net/api/datasources
+
+{
+  "id":1,
+  "orgId":1,
+  "name":"test_datasource",
+  "type":"graphite",
+  "access":"proxy",
+  "url":"http://mydatasource.com",
+  "password":"",
+  "user":"",
+  "database":"",
+  "basicAuth":true,
+  "basicAuthUser":"basicuser",
+  "secureJsonData": {
+    "basicAuthPassword": "basicpassword"
+  },
+  "isDefault":false,
+  "jsonData":null
+}
