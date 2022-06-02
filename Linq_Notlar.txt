@@ -1,0 +1,139 @@
+----Select
+var queryLondonCustomers = from cust in customers
+                           where cust.City == "London"
+                           select cust;
+var query = from cust in Customer  
+            select new {Name = cust.Name, City = cust.City};  
+
+var newLargeOrderCustomers = IncomingOrders.Where(x => x.OrderSize > 5)
+                              .Select(y => new Customer { Name = y.Name, Phone = y.Phone });
+
+----Select_OrderBy
+var queryLondonCustomers3 =from cust in customers
+                           where cust.City == "London"
+                           orderby cust.Name ascending/descending
+                           select cust;
+
+----Select_GroupBy  
+var queryCustomersByCity =from cust in customers
+                          group cust by cust.City;
+  foreach (var customerGroup in queryCustomersByCity)
+  {
+      Console.WriteLine(customerGroup.Key);
+      foreach (Customer customer in customerGroup)
+      {
+          Console.WriteLine("    {0}", customer.Name);
+      }
+  }
+
+----Select_Full_Example
+var custQuery =from cust in customers
+               group cust by cust.City into custGroup
+               where custGroup.Count() > 2
+               orderby custGroup.Key
+               select custGroup;
+
+----Select_Join
+var list=(from u in dm.Urun
+  join b in dm.Birim on u.BirimNo equals b.No
+  where u.BirimNo == b.No
+  select new { u.No, u.Ad, u.Kdv, BirimAd = b.Ad }).ToList();
+
+
+var innerJoinQuery =from cust in customers
+                    join dist in distributors on cust.City equals dist.City
+                    select new { CustomerName = cust.Name, DistributorName = dist.Name };
+
+var query =from contact in contacts
+           from order in orders
+           where contact.ContactID == order.Contact.ContactID
+           && order.OrderDate >= new DateTime(2002, 10, 1)
+           select new
+           {
+            ContactID = contact.ContactID,
+            LastName = contact.LastName,
+            FirstName = contact.FirstName,
+            OrderID = order.SalesOrderID,
+            OrderDate = order.OrderDate
+            };
+----Select_Concat
+var peopleInSeattle = (from student in students
+                       where student.City == "Seattle"
+                       select student.Last)
+                       .Concat(from teacher in teachers
+                       where teacher.City == "Seattle"
+                       select teacher.Last)
+-----Syntax
+ IEnumerable<int> numQuery1 =
+            from num in numbers
+            where num % 2 == 0
+            orderby num
+            select num;
+
+           //Method syntax:
+            IEnumerable<int> numQuery2 = numbers.Where(num => num % 2 == 0).OrderBy(n => n);
+
+-----Sorgu_Yurutme
+IQueryable<Customer> custQuery =from cust in Customers
+                                where cust.City == "London" 
+                                select cust;
+
+          foreach (Customer cust in custQuery)
+          {
+           Console.WriteLine("ID={0}, City={1}", cust.CustomerID, cust.City);
+          }
+
+------Entities_Insert
+Model m= new Model()
+
+{
+
+Table dyr = new Table();
+dyr.Object = Value;
+m.table.Add(dyr); //updating remove or m.UpdateObject(dyr);
+m.SaveChanges(); 
+
+}
+-----Entities_Update
+Model m= new Model()
+
+{
+var dyr = m.table.Where(w=>w.id==1).FirstOrDefault();
+dyr.Object = Value;
+//or m.UpdateObject(dyr);
+m.SaveChanges(); 
+
+
+
+
+------Entities_Remove
+var remove= (from h in m.table
+                   where h.ID == delId
+                   select h).FirstOrDefault(); 
+
+                    m.table.Remove(remove); //or   m.DeleteObject(remove);
+                    m.SaveChanges();        //or   m.SaveChanges();
+------Select_Top(Take)
+var list =from c in dm.Cari
+            orderby c.No descending
+            select c.No).Take(1)
+----Select_Join
+ Siparisler = String.Join(",", (dm.Siparis_Fatura.AsEnumerable().Where(s => s.FaturaNo == f.No).Select(
+                            s => s.Siparis.Kod))).ToString(),
+--Array'ın her indixini birleştirdi.
+
+---Select_Index
+   var lst = dm.Fatura.AsEnumerable().Select((s, x) => new { s.No, x = x + 1 }).ToList();
+
+
+                    
+/////https://www.yazilimkodlama.com/programlama/c-windows-form-entity-framework-veritabani-baglantisi/
+
+/////https://www.mehmetaltunel.com/csharp/c-datagridview-kullanimi-ve-ozellestirme/
+Dim dc As New MyDataContext  
+Dim query = From A In dc.C_TABLE  
+cmbProductionCode.ValueField = "ID"  
+cmbProductionCode.TextField = "SAP_COMPONENT_CODE"  
+cmbProductionCode.DataSource = query.ToList()  
+cmbProductionCode.DataBind()  
+
